@@ -73,9 +73,6 @@ class Blockchain {
                 block.previousBlockHash = null
             else 
                 block.previousBlockHash = self.chain[self.height].hash;
-        
-            if (self.height == 2)
-                block.previousBlockHash = "bad hash"
 
             self.height = self.height + 1
             block.height = self.height
@@ -150,7 +147,7 @@ class Blockchain {
             let currentTime = parseInt(new Date().getTime().toString().slice(0, -3))
             let passedTime = parseInt(message.split(':')[1])
             console.log(" current time"+ currentTime + " passed time " +passedTime)
-            let lessThan5Minutes = ((currentTime-passedTime) <= 3000)
+            let lessThan5Minutes = ((currentTime-passedTime) <= 300)
             
             if (!lessThan5Minutes)
              reject(new Error('submitStar: more than 5 minutes since the first message'))
@@ -251,6 +248,7 @@ class Blockchain {
     validateChain() {
         let self = this;
         let invalidBlocks = [];
+        console.log("in validate chain!")
         return new Promise(async (resolve, reject) => {
             invalidBlocks = []
             self.chain.forEach((block, i)=> {
